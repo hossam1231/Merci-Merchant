@@ -7,6 +7,7 @@ import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation/Navigation";
 import LoadingScreen, { Loading } from "./screens/loading/LoadingScreen";
 import AuthenticationModal from "./screens/authentication/AuthenticationModal";
+import Intro from "./screens/authentication/Intro/Index";
 
 export default function App() {
 	const isLoadingComplete = useCachedResources();
@@ -33,7 +34,7 @@ export default function App() {
 		} else {
 			return (
 				<NativeBaseProvider>
-					<AuthenticationModal />
+					<Intro />
 				</NativeBaseProvider>
 			);
 		}
