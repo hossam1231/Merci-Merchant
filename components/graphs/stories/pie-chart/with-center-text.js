@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { Text, G } from "react-native-svg";
 import { PieChart } from "../../../src";
 

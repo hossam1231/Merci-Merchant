@@ -1,5 +1,5 @@
-import React from "react";
-import { View } from "react-native";
+import React from "../../../../screens/node_modules/@types/react";
+import { View } from "../../../../screens/node_modules/@types/react-native";
 import { XAxis, Path, Chart, useArea, useChart, useLayout } from "../../../src";
 import * as scale from "d3-scale";
 import * as shape from "d3-shape";

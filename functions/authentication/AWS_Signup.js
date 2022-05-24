@@ -7,7 +7,12 @@ import {
 
 var AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
-export const SignUp = ({ email, phoneNumber, password }) => {
+export const AWS_SignUp = ({
+	email,
+	phoneNumber,
+	password,
+	preferredUsername,
+}) => {
 	console.log("hi");
 	var poolData = {
 		UserPoolId: "us-east-1_EdEM6OA8K", // Your user pool id here
@@ -19,12 +24,17 @@ export const SignUp = ({ email, phoneNumber, password }) => {
 
 	var dataEmail = {
 		Name: "email",
-		Value: "email@mydomain.com",
+		Value: email,
+	};
+
+	var dataPreferredUsername = {
+		Name: "preferred_username",
+		Value: preferredUsername,
 	};
 
 	var dataPhoneNumber = {
 		Name: "phone_number",
-		Value: "+15555555555",
+		Value: phoneNumber,
 	};
 	var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(
 		dataEmail
@@ -32,22 +42,21 @@ export const SignUp = ({ email, phoneNumber, password }) => {
 	var attributePhoneNumber = new AmazonCognitoIdentity.CognitoUserAttribute(
 		dataPhoneNumber
 	);
+	var attributePreferredUsername =
+		new AmazonCognitoIdentity.CognitoUserAttribute(dataPreferredUsername);
 
 	attributeList.push(attributeEmail);
 	attributeList.push(attributePhoneNumber);
+	attributeList.push(attributePreferredUsername);
 
-	userPool.signUp(
-		"username",
-		"password",
-		attributeList,
-		null,
-		function (err, result) {
-			if (err) {
-				alert(err.message || JSON.stringify(err));
-				return;
-			}
-			var cognitoUser = result.user;
-			console.log("user name is " + cognitoUser.getUsername());
+	userPool.signUp(email, password, attributeList, null, function (err, result) {
+		if (err) {
+			alert(err.message || JSON.stringify(err));
+			return;
 		}
-	);
+		var cognitoUser = result.user;
+		console.log("user name is " + cognitoUser.getUsername());
+	});
 };
+
+export default AWS_SignUp;

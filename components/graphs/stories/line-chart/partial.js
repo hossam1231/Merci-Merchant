@@ -1,7 +1,7 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { ClipPath, Defs, Rect } from "react-native-svg";
 import { Path, useLayout, useChart, Chart, useLine } from "../../../src";
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "../../../../screens/node_modules/@types/react-native";
 
 const PartialLineChartExample = () => {
   const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80];

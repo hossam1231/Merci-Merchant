@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { BarChart, Grid } from "../../../src";
 
 class BarChartExample extends React.PureComponent {

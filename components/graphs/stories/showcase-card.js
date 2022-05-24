@@ -1,5 +1,5 @@
-import React from "react";
-import { SafeAreaView, View, Text } from "react-native";
+import React from "../../../screens/node_modules/@types/react";
+import { SafeAreaView, View, Text } from "../../../screens/node_modules/@types/react-native";
 
 const ShowcaseCard = ({ children, title }) => (
   <SafeAreaView>

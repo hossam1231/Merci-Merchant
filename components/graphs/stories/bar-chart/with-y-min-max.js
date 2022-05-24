@@ -1,5 +1,5 @@
-import React from "react";
-import { View } from "react-native";
+import React from "../../../../screens/node_modules/@types/react";
+import { View } from "../../../../screens/node_modules/@types/react-native";
 import { BarChart, Grid, YAxis } from "../../../src";
 
 class BarChartExample extends React.PureComponent {

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from "../../../../screens/node_modules/@types/react";
 import { Grid, Path } from "../../../src";
 import * as shape from "d3-shape";
 import { Chart } from "../../../src/chart/newChart";

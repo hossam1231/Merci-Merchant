@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import Grid from "./custom-grid";
 import Decorator1 from "./decorator-1";
 import Decorator2 from "./decorator-2";

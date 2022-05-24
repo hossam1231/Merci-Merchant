@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { Grid, Path, useLayout, useChart, useLine, Chart } from "../../../src";
 import { Circle, G, Line, Rect, Text } from "react-native-svg";
 

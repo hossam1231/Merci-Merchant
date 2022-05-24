@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { ProgressCircle } from "../../../src";
 
 class ProgressCircleExample extends React.PureComponent {

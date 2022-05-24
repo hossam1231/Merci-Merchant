@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 
 import Standard from "./standard";
 import Horizontal from "./horizontal";

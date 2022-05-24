@@ -1,6 +1,6 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { XAxis, Grid, Chart, useLayout, useChart, useLine } from "../../../src";
-import { View } from "react-native";
+import { View } from "../../../../screens/node_modules/@types/react-native";
 import { Path } from "react-native-svg";
 
 const XAxisExample = () => {

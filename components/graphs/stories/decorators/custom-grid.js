@@ -1,6 +1,6 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { Path, Chart, useLine, useChart, useLayout } from "../../../src";
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "../../../../screens/node_modules/@types/react-native";
 import { G, Line } from "react-native-svg";
 
 const CustomGridExample = () => {

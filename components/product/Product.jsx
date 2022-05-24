@@ -1,6 +1,6 @@
-import React from "react";
+import React from "../../screens/node_modules/@types/react";
 import { Box, HStack, Box, VStack, Text, Image } from "native-base";
-import { Pressable } from "react-native";
+import { Pressable } from "../../screens/node_modules/@types/react-native";
 
 export const RectangleProductCard = () => {
 	return (

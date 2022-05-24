@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import {
   XAxis,
   Grid,
@@ -8,7 +8,7 @@ import {
   useLayout,
   useChart,
 } from "../../../src";
-import { View } from "react-native";
+import { View } from "../../../../screens/node_modules/@types/react-native";
 import * as scale from "d3-scale";
 import * as shape from "d3-shape";
 import * as dateFns from "date-fns";

@@ -1,10 +1,11 @@
-import React from "react";
 import * as AWS from "aws-sdk/global";
 
 var AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
-const AWS_SignIn = ({ email, password }) => {
-	console.log("attempting sign in");
+export const AWS_SignIn = ({ email, password }) => {
+	// const = props;
+
+	console.log("attempting sign in EMAIL:", email, "PASSWORD", password);
 
 	var authenticationData = {
 		Username: email,

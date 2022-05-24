@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import ScaleLinear from "./scale-linear";
 import ScaleTime from "./scale-time";
 import ScaleBand from "./scale-band";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "../../../../screens/node_modules/@types/react";
 import { ClipPath, Defs, LinearGradient, Rect, Stop } from "react-native-svg";
 import { Path, Grid } from "../../../src";
 import { Chart } from "../../../src/chart/newChart";

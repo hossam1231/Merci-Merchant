@@ -1,7 +1,7 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { Grid, Path, useLayout, useChart, useArea, Chart } from "../../../src";
 import * as shape from "d3-shape";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "../../../../screens/node_modules/@types/react-native";
 
 const LayeredChartsExample = () => {
   const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80];

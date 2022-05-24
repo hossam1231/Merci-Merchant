@@ -1,7 +1,7 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { YAxis, Grid, Chart, useChart, useLayout, useLine } from "../../../src";
 import * as shape from "d3-shape";
-import { View } from "react-native";
+import { View } from "../../../../screens/node_modules/@types/react-native";
 import { Path } from "react-native-svg";
 
 const YAxisExample = () => {

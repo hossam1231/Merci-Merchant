@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { LinearGradient, Stop, Defs } from "react-native-svg";
 import { BarChart } from "../../../src";
 

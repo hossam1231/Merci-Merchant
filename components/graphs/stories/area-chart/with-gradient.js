@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { Path } from "../../../src";
 import { Defs, LinearGradient, Stop } from "react-native-svg";
 import { useChart, useArea, useLayout } from "../../../src/hooks";

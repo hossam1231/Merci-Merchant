@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "../../screens/node_modules/@types/react";
 import * as tf from "@tensorflow/tfjs";
 import {
 	fetch,

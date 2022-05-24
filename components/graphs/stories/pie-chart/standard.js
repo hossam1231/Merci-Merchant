@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { PieChart } from "../../../src";
 
 class PieChartExample extends React.PureComponent {

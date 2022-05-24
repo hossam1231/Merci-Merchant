@@ -1,4 +1,5 @@
 import React from "react";
+
 import { ClipPath, Defs, Rect } from "react-native-svg";
 import {
 	Grid,

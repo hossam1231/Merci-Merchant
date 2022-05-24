@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 
 import Regular from "./standard";
 import WithTimeScale from "./with-time-scale";

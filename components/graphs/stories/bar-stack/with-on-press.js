@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import { Grid, StackedBarChart } from "../../../src";
 
 const colors = ["#33691E", "#689F38", "#9CCC65", "#DCEDC8"];

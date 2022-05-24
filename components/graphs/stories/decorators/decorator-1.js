@@ -1,4 +1,4 @@
-import React from "react";
+import React from "../../../../screens/node_modules/@types/react";
 import {
   Grid,
   Chart,
@@ -8,7 +8,7 @@ import {
   useArea,
 } from "../../../src";
 import { Circle, Path } from "react-native-svg";
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "../../../../screens/node_modules/@types/react-native";
 
 const DecoratorExample = () => {
   const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80];
