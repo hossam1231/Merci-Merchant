@@ -1,10 +1,9 @@
 import * as AWS from "aws-sdk/global";
+import { storeObj } from "../../data/localStorage";
 
 var AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
 export const AWS_SignIn = ({ email, password }) => {
-	// const = props;
-
 	console.log("attempting sign in EMAIL:", email, "PASSWORD", password);
 
 	var authenticationData = {
@@ -29,14 +28,16 @@ export const AWS_SignIn = ({ email, password }) => {
 			var accessToken = result.getAccessToken().getJwtToken();
 
 			//POTENTIAL: Region needs to be set if not already set previously elsewhere.
-			AWS.config.region = "Regions.US_EAST_1";
+			AWS.config.region = "us-east-1";
 
 			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-				IdentityPoolId: "us-east-1:7752578d-721c-4b5f-b649-589b9b42af4a", // your identity pool id here
+				IdentityPoolId: "us-east-1:7752578d-721c-4b5f-b649-589b9b42af4a",
+				// your identity pool id here
 				Logins: {
 					// Change the key below according to the specific region your user pool is in.
-					"cognito-idp.Regions.US_EAST_1.amazonaws.com/us-east-1_EdEM6OA8K":
-						result.getIdToken().getJwtToken(),
+					"cognito-idp.us-east-1.amazonaws.com/us-east-1_EdEM6OA8K": result
+						.getIdToken()
+						.getJwtToken(),
 				},
 			});
 
@@ -50,6 +51,8 @@ export const AWS_SignIn = ({ email, password }) => {
 					console.log("Successfully logged!");
 				}
 			});
+			console.log("RES", result.idToken.payload);
+			storeObj({ key: "USER_LOCAL", value: result.idToken.payload });
 		},
 
 		onFailure: function (err) {

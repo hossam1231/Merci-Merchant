@@ -1,12 +1,33 @@
-import * as React from 'react';
+// react
+import * as React from "react";
+import { useEffect, useState } from "react";
+
 // this ting just a promise ting u see dat ting der where it returns the state thats whats important cah when its called my man decided to assign it to a constant so man comes here executes and dat and retyurns so when on the otherside my man can asssign it to that constant
+
+// expo
 import { FontAwesome } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
+
+// local storage
+import { getObj } from "../data/localStorage";
+
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import { setUserID, setUser } from "../services/redux/actions";
 
 export default function useCachedResources() {
 	const [isLoadingComplete, setLoadingComplete] = useState(false);
+	const { user } = useSelector((state) => state.userReducer);
+	const dispatch = useDispatch();
+
+	const getUser = async () => {
+		const userLOCAL = getObj("USER_LOCAL");
+		userLOCAL.then(function (result) {
+			// here you can use the result of promise
+			dispatch(setUser(result));
+		});
+	};
 
 	// Load any resources or data that we need prior to rendering the app
 	useEffect(() => {
@@ -24,15 +45,15 @@ export default function useCachedResources() {
 					"Manrope-ExtraBold": require("../assets/fonts/Manrope/static/Manrope-ExtraBold.ttf"),
 					"Manrope-ExtraLight": require("../assets/fonts/Manrope/static/Manrope-ExtraLight.ttf"),
 				});
+				// load user
+				await getUser();
 			} catch (e) {
 				// We might want to provide this error information to an error reporting service
 				console.warn(e);
 			} finally {
-				setTimeout(function () {
-					//do what you need here
-					setLoadingComplete(true);
-					SplashScreen.hideAsync();
-				}, 2000);
+				//do what you need here
+				setLoadingComplete(true);
+				SplashScreen.hideAsync();
 			}
 		}
 

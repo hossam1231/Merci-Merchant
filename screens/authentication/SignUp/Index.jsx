@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Button,
 	Checkbox,
@@ -29,17 +29,37 @@ import IconGoogle from "./components/IconGoogle";
 import IconFacebook from "./components/IconFacebook";
 import FloatingLabelInput from "./components/FloatingLabelInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+// aws
 import AWS_SignUp from "../../../functions/authentication/AWS_Signup";
+
+// redux
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../../services/redux/actions";
 
 function SignUpForm({ props }) {
 	// add next router here
 	const [email, setEmail] = useState("");
+	const [name, setName] = useState("");
 	const [preferredUsername, setPreferredUsername] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirm_pass, setConfirmPass] = useState("");
 	const [showPass, setShowPass] = React.useState(false);
 	const [showConfirmPass, setShowConfirmPass] = React.useState(false);
+	const [userPrivate, setUserPrivate] = useState();
+
+	const signUp = async () => {
+		await AWS_SignUp({
+			email,
+			password,
+			phoneNumber,
+			preferredUsername,
+			name,
+		});
+	};
+
 	return (
 		<KeyboardAwareScrollView
 			contentContainerStyle={{
@@ -70,7 +90,7 @@ function SignUpForm({ props }) {
 							<VStack space={{ base: "7", md: "4" }}>
 								<FloatingLabelInput
 									isRequired
-									label="Emailp"
+									label="Email"
 									labelColor="#9ca3af"
 									labelBGColor={useColorModeValue("#fff", "#1f2937")}
 									borderRadius="4"
@@ -90,12 +110,32 @@ function SignUpForm({ props }) {
 
 								<FloatingLabelInput
 									isRequired
-									label=""
+									label="Username"
 									labelColor="#9ca3af"
 									labelBGColor={useColorModeValue("#fff", "#1f2937")}
 									borderRadius="4"
 									defaultValue={preferredUsername}
 									onChangeText={(txt) => setPreferredUsername(txt)}
+									_text={{
+										fontSize: "sm",
+										fontWeight: "medium",
+									}}
+									_dark={{
+										borderColor: "coolGray.700",
+									}}
+									_light={{
+										borderColor: "coolGray.300",
+									}}
+								/>
+
+								<FloatingLabelInput
+									isRequired
+									label="name"
+									labelColor="#9ca3af"
+									labelBGColor={useColorModeValue("#fff", "#1f2937")}
+									borderRadius="4"
+									defaultValue={name}
+									onChangeText={(txt) => setName(txt)}
 									_text={{
 										fontSize: "sm",
 										fontWeight: "medium",
@@ -261,6 +301,9 @@ function SignUpForm({ props }) {
 												color: "primary.500",
 											},
 										}}
+										onPress={() => {
+											console.log(userPrivate);
+										}}
 									>
 										Privacy Policy
 									</Link>
@@ -282,12 +325,7 @@ function SignUpForm({ props }) {
 								}}
 								onPress={() => {
 									// props.navigation.navigate("OTP");
-									AWS_SignUp({
-										email,
-										password,
-										phoneNumber,
-										preferredUsername,
-									});
+									signUp();
 								}}
 							>
 								SIGN UP

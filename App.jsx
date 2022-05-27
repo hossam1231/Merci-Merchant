@@ -1,32 +1,30 @@
-import React from 'react'
-import { StatusBar } from "expo-status-bar";
+// react
+import React from "react";
+
+// redux
+import { Provider as ReduxProvider } from "react-redux";
+import { Store } from "./services/redux/store";
+
+// nativebase
+import { NativeBaseProvider } from "native-base";
+
+// react native
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Box, NativeBaseProvider } from "native-base";
-import useCachedResources from "./hooks/useCachedResources";
-import useColorScheme from "./hooks/useColorScheme";
-import Navigation from "./navigation/Navigation";
-import LoadingScreen, { Loading } from "./screens/loading/LoadingScreen";
 
-export default function App() {
-	const isLoadingComplete = useCachedResources();
-	const colorScheme = useColorScheme();
+// screens
+import { LoadingScreen } from "./screens/loading/LoadingScreen";
 
-	const user = false;
-
-	if (!isLoadingComplete) {
-		return (
-			<NativeBaseProvider>
-				<LoadingScreen />
-			</NativeBaseProvider>
-		);
-	} else {
-		return (
+const App = () => {
+	return (
+		<ReduxProvider store={Store}>
+			{/* <PersistGate loading={false} persistor={persister}> */}
 			<NativeBaseProvider>
 				<SafeAreaProvider>
-					<Navigation />
-					<StatusBar />
+					<LoadingScreen />
 				</SafeAreaProvider>
 			</NativeBaseProvider>
-		);
-	}
-}
+		</ReduxProvider>
+	);
+};
+
+export default App;
