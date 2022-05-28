@@ -13,26 +13,42 @@ import Navigation from "../../navigation/Navigation";
 // importing services
 import useCachedResources from "../../hooks/useCachedResources";
 
-export const LoadingScreen = () => {
+export const LoadingScreen = ({
+	spinnerColor,
+	textColor,
+	accessibilityLabel,
+}) => {
 	const isLoadingComplete = useCachedResources();
 
 	if (!isLoadingComplete) {
 		if (Platform.OS === "web") {
-			return <Loading />;
+			return (
+				<Loading
+					spinnerColor={spinnerColor}
+					textColor={textColor}
+					accessibilityLabel={accessibilityLabel}
+				/>
+			);
 		}
-		return <Loading />;
+		return (
+			<Loading
+				spinnerColor={spinnerColor}
+				textColor={textColor}
+				accessibilityLabel={accessibilityLabel}
+			/>
+		);
 	}
 
 	return <Navigation />;
 };
 
-export const Loading = () => {
+export const Loading = ({ spinnerColor, textColor, accessibilityLabel }) => {
 	return (
 		<Center flex="1">
 			{/* napna logo */}
 			<HStack space={2} justifyContent="center">
-				<Spinner accessibilityLabel="Loading posts" />
-				<Heading color="black" fontSize="md">
+				<Spinner color={spinnerColor} accessibilityLabel={accessibilityLabel} />
+				<Heading color={textColor} fontSize="md">
 					Loading
 				</Heading>
 			</HStack>

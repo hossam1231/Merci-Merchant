@@ -31,7 +31,7 @@ import FloatingLabelInput from "./components/FloatingLabelInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // aws
-import AWS_SignUp from "../../../functions/authentication/AWS_Signup";
+import AWS_SignUp from "../../../functions/authentication/AWS_SignUp";
 
 // redux
 // redux
@@ -51,6 +51,7 @@ function SignUpForm({ props }) {
 	const [userPrivate, setUserPrivate] = useState();
 
 	const signUp = async () => {
+		console.log("started");
 		await AWS_SignUp({
 			email,
 			password,
@@ -58,6 +59,7 @@ function SignUpForm({ props }) {
 			preferredUsername,
 			name,
 		});
+		console.log("ended");
 	};
 
 	return (

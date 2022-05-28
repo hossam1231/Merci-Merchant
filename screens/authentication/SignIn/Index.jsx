@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Button,
 	HStack,
@@ -17,6 +17,8 @@ import {
 	StatusBar,
 	Stack,
 	Box,
+	WarningOutlineIcon,
+	CloseIcon,
 } from "native-base";
 
 import { AntDesign, Entypo } from "@expo/vector-icons";
@@ -27,12 +29,46 @@ import FloatingLabelInput from "./components/FloatingLabelInput";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import AWS_SignIn from "../../../functions/authentication/AWS_SignIn";
+import { Loading } from "../../loading/LoadingScreen";
 
 export function SignInForm({ props }) {
 	// add next router here
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPass, setShowPass] = React.useState(false);
+	const [loading, setLoading] = useState(false);
+	const [loadingMessage, setloadingMessage] = useState();
+	const [errorMessage, setErrorMessage] = useState();
+
+	useEffect(() => {
+		// handle errors
+		if (errorMessage) {
+			console.log("uncaught error", errorMessage);
+			setloadingMessage(errorMessage);
+			setTimeout(() => {
+				setloadingMessage();
+			}, "1500");
+			if (errorMessage == "User is not confirmed.") {
+				
+			}
+		}
+	}, [errorMessage]);
+
+	const signIn = async () => {
+		setLoading(true);
+		try {
+			const id = await await AWS_SignIn({
+				email,
+				password,
+			});
+			const result = await id;
+			console.log(result);
+		} catch (err) {
+			setErrorMessage(err);
+		}
+		setLoading(false);
+	};
+
 	return (
 		<KeyboardAwareScrollView
 			contentContainerStyle={{
@@ -169,12 +205,42 @@ export function SignInForm({ props }) {
 									bg: "primary.700",
 								}}
 								onPress={() => {
-									// props.navigation.navigate("OTP");
-									console.log(email, password);
-									AWS_SignIn({ email, password });
+									signIn();
 								}}
 							>
-								SIGN IN
+								{!loading ? (
+									<>
+										{!loadingMessage && <Text color="white"> SIGN IN</Text>}
+										{loadingMessage === "User is not confirmed." && (
+											<HStack alignItems="center" space={2}>
+												<WarningOutlineIcon color="white" size="sm" />
+												<Text color="white">Attention needed</Text>
+											</HStack>
+										)}
+										{loadingMessage === "Incorrect username or password." && (
+											<HStack alignItems="center" space={2}>
+												<CloseIcon size="sm" color="white" />
+												<Text color="white" fontSize="md">
+													Try again
+												</Text>
+											</HStack>
+										)}
+										{/* {loadingMessage == "Incorrect username or password" && (
+											<HStack space={2}>
+												<CheckIcon size="5" mt="0.5" color="emerald.500" />
+												<Text color="emerald.500" fontSize="md">
+													Order Placed Successfully
+												</Text>
+											</HStack>
+										)} */}
+									</>
+								) : (
+									<Loading
+										spinnerColor={"white"}
+										textColor={"white"}
+										accessibilityLabel={"loading sign-in promise"}
+									/>
+								)}
 							</Button>
 							{/* Closing Link Tag */}
 							<HStack

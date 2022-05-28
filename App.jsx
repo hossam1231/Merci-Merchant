@@ -20,7 +20,11 @@ const App = () => {
 			{/* <PersistGate loading={false} persistor={persister}> */}
 			<NativeBaseProvider>
 				<SafeAreaProvider>
-					<LoadingScreen />
+					<LoadingScreen
+						spinnerColor={"black"}
+						textColor={"black"}
+						accessibilityLabel={"loading cache"}
+					/>
 				</SafeAreaProvider>
 			</NativeBaseProvider>
 		</ReduxProvider>

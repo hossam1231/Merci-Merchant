@@ -77,6 +77,5 @@ export default function AWS_SignUp({
 		// We might want to provide this error information to an error reporting service
 		console.warn(e);
 	} finally {
-		//
 	}
 }
