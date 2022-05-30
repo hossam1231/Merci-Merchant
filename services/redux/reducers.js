@@ -2,7 +2,7 @@ import { SET_USER, SET_USER_ID } from "./actions";
 
 const initialState = {
 	user: [],
-	userID: 1,
+	userID: [],
 };
 
 function userReducer(state = initialState, action) {

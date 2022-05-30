@@ -12,15 +12,15 @@ import { getObj } from "../data/localStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserID, setUser } from "../services/redux/actions";
 
+// navigation
 const Stack = createNativeStackNavigator();
 
 export default function Navigation({ navigation }) {
-	const [userState, setUserState] = useState();
-
-	const { user } = useSelector((state) => state.userReducer);
+	// redux
+	const { userID } = useSelector((state) => state.userReducer);
 	const dispatch = useDispatch();
 
-	if (!user) {
+	if (!userID) {
 		return (
 			<NavigationContainer>
 				<Stack.Navigator>
@@ -39,22 +39,25 @@ export default function Navigation({ navigation }) {
 						component={SignUp}
 						options={{ headerShown: false }}
 					/>
+					<Stack.Screen
+						name="OTP"
+						component={OtpVerification}
+						options={{ headerShown: false }}
+						getDestination={({ params }) => params.destination}
+					/>
 				</Stack.Navigator>
 			</NavigationContainer>
 		);
-	} else {
-		if (!user.exp) {
-			return (
-				<NavigationContainer>
-					<Stack.Navigator>
-						<Stack.Screen
-							name="OTP"
-							component={OtpVerification}
-							options={{ headerShown: false }}
-						/>
-					</Stack.Navigator>
-				</NavigationContainer>
-			);
+	} else if (userID) {
+		if (userID.status == "unconfirmed") {
+			<NavigationContainer>
+				<Stack.Screen
+					name="OTP"
+					component={OtpVerification}
+					options={{ headerShown: false }}
+					getDestination={({ params }) => params.destination}
+				/>
+			</NavigationContainer>;
 		} else {
 			return (
 				<NavigationContainer>

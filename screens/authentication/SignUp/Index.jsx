@@ -1,4 +1,7 @@
+// react
 import React, { useState, useEffect } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// nativebase
 import {
 	Button,
 	Checkbox,
@@ -22,23 +25,29 @@ import {
 	Box,
 	Stack,
 } from "native-base";
-
+// icons
 import { Entypo, AntDesign } from "@expo/vector-icons";
-
 import IconGoogle from "./components/IconGoogle";
 import IconFacebook from "./components/IconFacebook";
-import FloatingLabelInput from "./components/FloatingLabelInput";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
 // aws
 import AWS_SignUp from "../../../functions/authentication/AWS_SignUp";
-
-// redux
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../../services/redux/actions";
+// local storage
+import { storeObj } from "../../../data/localStorage";
+// navigation
+import { useNavigation } from "@react-navigation/native";
+// components
+import FloatingLabelInput from "./components/FloatingLabelInput";
+import { Loading } from "../../loading/LoadingScreen";
 
 function SignUpForm({ props }) {
+	// redux
+	const { user } = useSelector((state) => state.userReducer);
+	const dispatch = useDispatch();
+	// navigation
+	const navigation = useNavigation();
 	// add next router here
 	const [email, setEmail] = useState("");
 	const [name, setName] = useState("");
@@ -49,17 +58,47 @@ function SignUpForm({ props }) {
 	const [showPass, setShowPass] = React.useState(false);
 	const [showConfirmPass, setShowConfirmPass] = React.useState(false);
 	const [userPrivate, setUserPrivate] = useState();
+	const [loading, setLoading] = useState(false);
+	const [loadingMessage, setloadingMessage] = useState();
+	const [errorMessage, setErrorMessage] = useState();
 
+	// useEffect
+	// useEffect(() => {
+	// 	// handle errors
+	// 	if (errorMessage) {
+	// 		console.log("uncaught error", errorMessage);
+	// 		setloadingMessage(errorMessage);
+	// 		setTimeout(() => {
+	// 			setloadingMessage();
+	// 		}, "1500");
+	// 		if (errorMessage == "User is not confirmed.") {
+	// 			navigation.navigate("OTP", { destination: email });
+	// 		}
+	// 	}
+	// }, [errorMessage]);
+
+	// functions
 	const signUp = async () => {
-		console.log("started");
-		await AWS_SignUp({
-			email,
-			password,
-			phoneNumber,
-			preferredUsername,
-			name,
-		});
-		console.log("ended");
+		setLoading(true);
+		try {
+			const user = await await AWS_SignUp({
+				email,
+				password,
+				phoneNumber,
+				preferredUsername,
+				name,
+			});
+			const result = await user;
+			console.log(result);
+			dispatch(setUser({ status: "unconfirmed", email: email }));
+			const storeLocal = storeObj({
+				key: "User_Local",
+				value: { status: "unconfirmed", email: email },
+			});
+		} catch (err) {
+			setErrorMessage(err);
+		}
+		setLoading(false);
 	};
 
 	return (
@@ -330,7 +369,39 @@ function SignUpForm({ props }) {
 									signUp();
 								}}
 							>
-								SIGN UP
+								{!loading ? (
+									<>
+										{!loadingMessage && <Text color="white"> SIGN UP</Text>}
+										{loadingMessage === "User is not confirmed." && (
+											<HStack alignItems="center" space={2}>
+												<WarningOutlineIcon color="white" size="sm" />
+												<Text color="white">Attention needed</Text>
+											</HStack>
+										)}
+										{loadingMessage === "Incorrect username or password." && (
+											<HStack alignItems="center" space={2}>
+												<CloseIcon size="sm" color="white" />
+												<Text color="white" fontSize="md">
+													Try again
+												</Text>
+											</HStack>
+										)}
+										{/* {loadingMessage == "Incorrect username or password" && (
+											<HStack space={2}>
+												<CheckIcon size="5" mt="0.5" color="emerald.500" />
+												<Text color="emerald.500" fontSize="md">
+													Order Placed Successfully
+												</Text>
+											</HStack>
+										)} */}
+									</>
+								) : (
+									<Loading
+										spinnerColor={"white"}
+										textColor={"white"}
+										accessibilityLabel={"loading sign-in promise"}
+									/>
+								)}
 							</Button>
 							{/* Closing Link Tag */}
 							<HStack

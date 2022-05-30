@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.18/libexec/bin/yarn.js add redux-persist/integration/react
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.18/libexec/bin/yarn.js add @aws-sdk
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/hossam/.cargo/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/redux-persist%2fintegration/react: Request "https://registry.yarnpkg.com/redux-persist%2fintegration/react" returned a 405
+  Error: https://registry.yarnpkg.com/@aws-sdk: Request "https://registry.yarnpkg.com/@aws-sdk" returned a 405
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.18/libexec/lib/cli.js:66147:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.22.18/libexec/lib/cli.js:140883:22)
       at Request.emit (node:events:527:28)
@@ -88,7 +88,8 @@ npm manifest:
   		"react-redux": "^7.2.5",
   		"redux": "^4.1.1",
   		"redux-logger": "^3.0.6",
-  		"redux-persist": "^6.0.0"
+  		"redux-persist": "^6.0.0",
+  		"redux-thunk": "^2.4.1"
   	},
   	"devDependencies": {
   		"@babel/core": "^7.9.0",
@@ -96,6 +97,7 @@ npm manifest:
   		"@types/react": "~16.9.35",
   		"@types/react-native": "~0.63.2",
   		"@types/redux-logger": "^3.0.9",
+  		"@types/redux-persist": "^4.3.1",
   		"@typescript-eslint/eslint-plugin": "^4.31.0",
   		"@typescript-eslint/parser": "^4.31.0",
   		"babel-preset-expo": "^8.4.1",
@@ -641,15 +643,20 @@ Lockfile:
       chalk "^2.0.0"
       js-tokens "^4.0.0"
   
-  "@babel/parser@^7.13.16", "@babel/parser@^7.14.0", "@babel/parser@^7.16.7", "@babel/parser@^7.18.0", "@babel/parser@^7.9.0":
+  "@babel/parser@^7.13.16", "@babel/parser@^7.14.0", "@babel/parser@^7.16.7", "@babel/parser@^7.18.0":
     version "7.18.0"
-    resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.18.0.tgz#10a8d4e656bc01128d299a787aa006ce1a91e112"
+    resolved "https://registry.npmjs.org/@babel/parser/-/parser-7.18.0.tgz"
     integrity sha512-AqDccGC+m5O/iUStSJy3DGRIUFu7WbY/CppZYwrEUB4N0tZlnI8CSTsgL7v5fHVFmUbRv2sd+yy27o8Ydt4MGg==
   
   "@babel/parser@^7.15.4", "@babel/parser@^7.15.5":
     version "7.15.5"
     resolved "https://registry.npmjs.org/@babel/parser/-/parser-7.15.5.tgz"
     integrity sha512-2hQstc6I7T6tQsWzlboMh3SgMRPaS4H6H7cPQsJkdzTzEGqQrpLDsE2BGASU5sBPoEQyHzeqU6C8uKbFeEk6sg==
+  
+  "@babel/parser@^7.9.0":
+    version "7.18.3"
+    resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.18.3.tgz#39e99c7b0c4c56cef4d1eed8de9f506411c2ebc2"
+    integrity sha512-rL50YcEuHbbauAFAysNsJA4/f89fGTOBRNs9P81sniKnKAr4xULe5AecolcsKbi88xu0ByWYDj/S1AJ3FSFuSQ==
   
   "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining@^7.15.4":
     version "7.15.4"
@@ -2488,7 +2495,7 @@ Lockfile:
   
   "@react-native-community/async-storage@^1.12.1":
     version "1.12.1"
-    resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.12.1.tgz#25f821b4f6b13abe005ad67e47c6f1cee9f27b24"
+    resolved "https://registry.npmjs.org/@react-native-community/async-storage/-/async-storage-1.12.1.tgz"
     integrity sha512-70WGaH3PKYASi4BThuEEKMkyAgE9k7VytBqmgPRx3MzJx9/MkspwqJGmn3QLCgHLIFUgF1pit2mWICbRJ3T3lg==
     dependencies:
       deep-assign "^3.0.0"
@@ -3283,6 +3290,13 @@ Lockfile:
     integrity sha512-cwYhVbYNgH01aepeMwhd0ABX6fhVB2rcQ9m80u8Fl50ZODhsZ8RhQArnLTkE7/Zrfq4Sz/taNoF7DQy9pCZSKg==
     dependencies:
       redux "^4.0.0"
+  
+  "@types/redux-persist@^4.3.1":
+    version "4.3.1"
+    resolved "https://registry.npmjs.org/@types/redux-persist/-/redux-persist-4.3.1.tgz"
+    integrity sha512-YkMnMUk+4//wPtiSTMfsxST/F9Gh9sPWX0LVxHuOidGjojHtMdpep2cYvQgfiDMnj34orXyZI+QJCQMZDlafKA==
+    dependencies:
+      redux-persist "*"
   
   "@types/responselike@*", "@types/responselike@^1.0.0":
     version "1.0.0"
@@ -4879,7 +4893,7 @@ Lockfile:
   
   deep-assign@^3.0.0:
     version "3.0.0"
-    resolved "https://registry.yarnpkg.com/deep-assign/-/deep-assign-3.0.0.tgz#c8e4c4d401cba25550a2f0f486a2e75bc5f219a2"
+    resolved "https://registry.npmjs.org/deep-assign/-/deep-assign-3.0.0.tgz"
     integrity sha512-YX2i9XjJ7h5q/aQ/IM9PEwEnDqETAIYbggmdDB3HLTlSgo1CxPsj6pvhPG68rq6SVE0+p+6Ywsm5fTYNrYtBWw==
     dependencies:
       is-obj "^1.0.0"
@@ -7056,7 +7070,7 @@ Lockfile:
   
   is-obj@^1.0.0:
     version "1.0.1"
-    resolved "https://registry.yarnpkg.com/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
+    resolved "https://registry.npmjs.org/is-obj/-/is-obj-1.0.1.tgz"
     integrity sha1-PkcprB9f3gJc19g6iW2rn09n2w8=
   
   is-obj@^2.0.0:
@@ -9819,10 +9833,15 @@ Lockfile:
     dependencies:
       deep-diff "^0.3.5"
   
-  redux-persist@^6.0.0:
+  redux-persist@*, redux-persist@^6.0.0:
     version "6.0.0"
     resolved "https://registry.npmjs.org/redux-persist/-/redux-persist-6.0.0.tgz"
     integrity sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==
+  
+  redux-thunk@^2.4.1:
+    version "2.4.1"
+    resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.4.1.tgz#0dd8042cf47868f4b29699941de03c9301a75714"
+    integrity sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q==
   
   redux@^4.0.0, redux@^4.1.1:
     version "4.1.1"

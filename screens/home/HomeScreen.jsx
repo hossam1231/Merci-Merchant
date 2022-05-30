@@ -1,3 +1,6 @@
+// react
+import React, { useState, useEffect } from "react";
+// nativebase
 import {
 	Text,
 	HStack,
@@ -12,14 +15,22 @@ import {
 	Switch,
 	Badge,
 } from "native-base";
-import React, { useState } from "react";
+// dummy data
 import { DOL_Tiles } from "../../constants/home/DOL_Tiles";
 import { SB_Tiles } from "../../constants/home/SB_Tiles";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { S_Tiles_static, S_Tiles_toggle } from "../../constants/home/S_Tiles";
 import { BAL_Tiles } from "../../constants/home/BAL_Tiles";
 import { MA_Tiles } from "../../constants/home/MA_Tiles";
+// icons
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+// components
 import PartialLineChart from "../../components/graphs/partialLineChart/App";
+// screens
+import { Loading } from "../loading/LoadingScreen";
+// redux
+import { useDispatch, useSelector } from "react-redux";
+// db
+import { getItem } from "../../functions/db/AWS_GetItem";
 
 const HomeScreen = () => {
 	return (
@@ -31,13 +42,45 @@ const HomeScreen = () => {
 };
 
 export const Display = () => {
+	const [isLoadingComplete, setLoadingComplete] = useState(false);
+	const { user, userID } = useSelector((state) => state.userReducer);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		async function loadUser() {
+			if (!user) {
+				const userDB = getItem({
+					params: {
+						TableName: "users",
+						Key: {
+							primaryKey: email,
+							sortKey: "6c8264f7-5ff4-4e51-ba74-03ff1e426b56",
+						},
+					},
+				});
+				const result = await userDB;
+				dispatch(setUser(result));
+			}
+			setLoadingComplete(true);
+		}
+		loadUser();
+	}, []);
+
 	return (
 		<Box flex="1">
 			<TopBar />
-			<HStack flex="1">
-				<DateOverview />
-				<OverView />
-			</HStack>
+			{isLoadingComplete ? (
+				<HStack flex="1">
+					<DateOverview />
+					<OverView />
+				</HStack>
+			) : (
+				<Loading
+					backgroundColor={"#FAFAFE"}
+					spinnerColor={"black"}
+					textColor={"black"}
+				/>
+			)}
 		</Box>
 	);
 };
@@ -156,7 +199,7 @@ export const OverViewStatusList = () => {
 					mt="10"
 					data={toggleData}
 					renderItem={({ item }) => (
-						<HStack mb="10">
+						<HStack key={item.id} mb="10">
 							<HStack alignItems="center">
 								<Center bg={item.color} h="20" w="20" borderRadius="10" mr="5">
 									<Icon
@@ -197,7 +240,7 @@ export const OverViewStatusList = () => {
 					mt="10"
 					data={staticData}
 					renderItem={({ item }) => (
-						<HStack mb="10">
+						<HStack key={item.id} mb="10">
 							<HStack alignItems="center">
 								<Center bg={item.color} h="20" w="20" borderRadius="10" mr="5">
 									<Icon
@@ -265,7 +308,14 @@ export const OverViewBalancesList = () => {
 				mt="10"
 				data={data}
 				renderItem={({ item }) => (
-					<Box bg="#B9A1F8" borderRadius="10" w="167" h="201.72" mb="10">
+					<Box
+						key={item.id}
+						bg="#B9A1F8"
+						borderRadius="10"
+						w="167"
+						h="201.72"
+						mb="10"
+					>
 						<VStack flex="1" p="5">
 							<HStack alignItems="Center">
 								<Text mr="2" fontFamily="Manrope-ExtraBold" fontSize="lg">
@@ -347,6 +397,7 @@ export const OverViewActivityList = () => {
 			data={data}
 			renderItem={({ item }) => (
 				<HStack
+					key={item.id}
 					px="5"
 					borderLeftWidth="1"
 					borderRightWidth="1"
@@ -468,9 +519,7 @@ export const OverViewStatisticsPicker = () => {
 };
 
 export const OverViewUsage = () => {
-	return <>
-	
-	</>;
+	return <></>;
 };
 
 export const TopBar = () => {
@@ -538,7 +587,7 @@ export const SideBarList = () => {
 			mt="20"
 			data={data}
 			renderItem={({ item }) => (
-				<HStack p="10" h="35">
+				<HStack key={item.id} p="10" h="35">
 					{/* <Box w="4" bg="black" h="35"></Box> */}
 
 					<Icon as={AntDesign} name={item.icon} size="lg" />

@@ -24,6 +24,7 @@ export const LoadingScreen = ({
 		if (Platform.OS === "web") {
 			return (
 				<Loading
+					backgroundColor={"#FFFFFF"}
 					spinnerColor={spinnerColor}
 					textColor={textColor}
 					accessibilityLabel={accessibilityLabel}
@@ -32,6 +33,7 @@ export const LoadingScreen = ({
 		}
 		return (
 			<Loading
+				backgroundColor={"#FFFFFF"}
 				spinnerColor={spinnerColor}
 				textColor={textColor}
 				accessibilityLabel={accessibilityLabel}
@@ -42,9 +44,14 @@ export const LoadingScreen = ({
 	return <Navigation />;
 };
 
-export const Loading = ({ spinnerColor, textColor, accessibilityLabel }) => {
+export const Loading = ({
+	spinnerColor,
+	textColor,
+	accessibilityLabel,
+	backgroundColor,
+}) => {
 	return (
-		<Center flex="1">
+		<Center bg={backgroundColor} flex="1">
 			{/* napna logo */}
 			<HStack space={2} justifyContent="center">
 				<Spinner color={spinnerColor} accessibilityLabel={accessibilityLabel} />

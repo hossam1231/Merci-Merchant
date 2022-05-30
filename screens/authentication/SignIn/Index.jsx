@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+// react
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// nativebase
 import {
 	Button,
 	HStack,
@@ -21,25 +24,38 @@ import {
 	CloseIcon,
 } from "native-base";
 
-import { AntDesign, Entypo } from "@expo/vector-icons";
-
+// icons
 import IconGoogle from "./components/IconGoogle";
 import IconFacebook from "./components/IconFacebook";
-import FloatingLabelInput from "./components/FloatingLabelInput";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// components
+import FloatingLabelInput from "./components/FloatingLabelInput";
+// functions
 import AWS_SignIn from "../../../functions/authentication/AWS_SignIn";
+// screens
 import { Loading } from "../../loading/LoadingScreen";
+// navigation
+import { useNavigation } from "@react-navigation/native";
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../../services/redux/actions";
+import { storeObj } from "../../../data/localStorage";
 
 export function SignInForm({ props }) {
-	// add next router here
+	// navigation
+	const navigation = useNavigation();
+	// redux
+	const { user } = useSelector((state) => state.userReducer);
+	const dispatch = useDispatch();
+	// state
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPass, setShowPass] = React.useState(false);
 	const [loading, setLoading] = useState(false);
 	const [loadingMessage, setloadingMessage] = useState();
 	const [errorMessage, setErrorMessage] = useState();
-
+	// useEffect
 	useEffect(() => {
 		// handle errors
 		if (errorMessage) {
@@ -49,11 +65,12 @@ export function SignInForm({ props }) {
 				setloadingMessage();
 			}, "1500");
 			if (errorMessage == "User is not confirmed.") {
-				
+				navigation.navigate("OTP", { destination: email });
 			}
 		}
 	}, [errorMessage]);
 
+	// functions
 	const signIn = async () => {
 		setLoading(true);
 		try {
@@ -63,6 +80,8 @@ export function SignInForm({ props }) {
 			});
 			const result = await id;
 			console.log(result);
+			const saveToLocal = storeObj({ key: "UserID_Local", value: result });
+			dispatch(setUserID(result));
 		} catch (err) {
 			setErrorMessage(err);
 		}
@@ -324,6 +343,20 @@ export function SignInForm({ props }) {
 	);
 }
 export default function SignIn(props) {
+	// navigation
+	const navigation = useNavigation();
+	// redux
+	const { user } = useSelector((state) => state.userReducer);
+	const dispatch = useDispatch();
+
+	useLayoutEffect(() => {
+		if (user) {
+			if (user.status == "unconfirmed") {
+				navigation.push("OTP", { destination: email });
+			}
+		}
+	}, []);
+
 	return (
 		<>
 			<StatusBar

@@ -18,15 +18,19 @@ import { setUserID, setUser } from "../services/redux/actions";
 
 export default function useCachedResources() {
 	const [isLoadingComplete, setLoadingComplete] = useState(false);
-	const { user } = useSelector((state) => state.userReducer);
+	const { user, userID } = useSelector((state) => state.userReducer);
 	const dispatch = useDispatch();
 
 	const getUser = async () => {
-		const userLOCAL = getObj("USER_LOCAL");
-		userLOCAL.then(function (result) {
-			// here you can use the result of promise
-			dispatch(setUser(result));
-		});
+		const getUser_Local = getObj("User_Local");
+		const result = await getUser_Local;
+		dispatch(setUser(result));
+	};
+
+	const getUserID = async () => {
+		const getUserID_Local = getObj("UserID_Local");
+		const result = await getUserID_Local;
+		dispatch(setUserID(result));
 	};
 
 	// Load any resources or data that we need prior to rendering the app
@@ -46,6 +50,7 @@ export default function useCachedResources() {
 					"Manrope-ExtraLight": require("../assets/fonts/Manrope/static/Manrope-ExtraLight.ttf"),
 				});
 				// load user
+				await getUserID();
 				await getUser();
 			} catch (e) {
 				// We might want to provide this error information to an error reporting service

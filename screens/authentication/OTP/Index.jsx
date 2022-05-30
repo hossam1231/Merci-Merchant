@@ -25,6 +25,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserID, setUser } from "../../../services/redux/actions";
 import { removeObj } from "../../../data/localStorage";
 
+// navigaion
+import { useRoute, useNavigation } from "@react-navigation/native";
+
 function PinInput({ pin, setPin }) {
 	// useref focus change when value has one inside
 	const [pin0, setPin0] = useState("");
@@ -122,17 +125,22 @@ function PinInput({ pin, setPin }) {
 		</HStack>
 	);
 }
-export default function OtpVerification(props) {
+export default function OtpVerification({ destination }) {
+	// state
 	const [pin, setPin] = useState();
-
+	// redux
 	const { user } = useSelector((state) => state.userReducer);
 	const dispatch = useDispatch();
-
+	// navigation
+	const route = useRoute();
+	const navigation = useNavigation();
+	// function
 	function removePreUser() {
 		const removeUserLOCAL = removeObj("USER_LOCAL");
 		removeUserLOCAL.then(function (result) {
 			// here you can use the result of promise
 			dispatch(setUser(undefined));
+			navigation.goBack();
 		});
 	}
 
@@ -233,13 +241,17 @@ export default function OtpVerification(props) {
 											_light={{ color: "coolGray.800" }}
 											_dark={{ color: "coolGray.300" }}
 										>
-											{user.username}
+											{route.params.destination}
 										</Text>
 									</HStack>
 								</VStack>
 								<VStack space="12" mt="6">
 									<FormControl>
-										<PinInput pin={pin} setPin={setPin} />
+										<PinInput
+											destination={route.params.destination}
+											pin={pin}
+											setPin={setPin}
+										/>
 										<FormControl.HelperText mt="7">
 											<HStack>
 												<Text
@@ -258,7 +270,9 @@ export default function OtpVerification(props) {
 														textDecoration: "none",
 													}}
 													onPress={() =>
-														AWS_ResendConfirmation({ email: user.username })
+														AWS_ResendConfirmation({
+															email: route.params.destination,
+														})
 													}
 												>
 													RESEND OTP
@@ -276,7 +290,10 @@ export default function OtpVerification(props) {
 											bg: "primary.700",
 										}}
 										onPress={() => {
-											AWS_ConfirmUser({ pin: pin, email: user.username });
+											AWS_ConfirmUser({
+												pin: pin,
+												email: route.params.destination,
+											});
 										}}
 									>
 										PROCEED

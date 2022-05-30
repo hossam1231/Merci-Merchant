@@ -61,7 +61,7 @@ export const AWS_SignIn = ({ email, password }) =>
 				rej(err.message); // rejects the promise
 			},
 		});
-		return { res };
+		return res;
 	});
 
 export default AWS_SignIn;
