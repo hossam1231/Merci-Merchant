@@ -6,6 +6,7 @@ import {
 	Button,
 	HStack,
 	VStack,
+	FormControl,
 	Text,
 	Link,
 	Checkbox,
@@ -109,7 +110,11 @@ export function SignInForm({ props }) {
 			>
 				<VStack space="7">
 					<Hidden till="md">
-						<Text fontSize="lg" fontWeight="normal">
+						<Text
+							fontFamily={"Manrope-Regular"}
+							fontSize="lg"
+							fontWeight="normal"
+						>
 							Sign in to continue!
 						</Text>
 					</Hidden>
@@ -125,6 +130,7 @@ export function SignInForm({ props }) {
 									defaultValue={email}
 									onChangeText={(txt) => setEmail(txt)}
 									_text={{
+										fontFamily: "Manrope-Light",
 										fontSize: "sm",
 										fontWeight: "medium",
 									}}
@@ -135,46 +141,95 @@ export function SignInForm({ props }) {
 										borderColor: "coolGray.300",
 									}}
 								/>
-								<FloatingLabelInput
-									isRequired
-									type={showPass ? "" : "password"}
-									label="Password"
-									borderRadius="4"
-									labelColor="#9ca3af"
-									labelBGColor={useColorModeValue("#fff", "#1f2937")}
-									defaultValue={password}
-									onChangeText={(txt) => setPassword(txt)}
-									InputRightElement={
-										<IconButton
-											variant="unstyled"
-											icon={
-												<Icon
-													size="4"
-													color="coolGray.400"
-													as={Entypo}
-													name={showPass ? "eye-with-line" : "eye"}
+								{errorMessage == "Incorrect username or password." ? (
+									<FormControl isInvalid>
+										<FloatingLabelInput
+											isRequired
+											type={showPass ? "" : "password"}
+											label="Password"
+											borderRadius="4"
+											labelColor="#9ca3af"
+											labelBGColor={useColorModeValue("#fff", "#1f2937")}
+											defaultValue={password}
+											onChangeText={(txt) => setPassword(txt)}
+											InputRightElement={
+												<IconButton
+													variant="unstyled"
+													icon={
+														<Icon
+															size="4"
+															color="coolGray.400"
+															as={Entypo}
+															name={showPass ? "eye-with-line" : "eye"}
+														/>
+													}
+													onPress={() => {
+														setShowPass(true);
+													}}
 												/>
 											}
-											onPress={() => {
-												setShowPass(true);
+											_text={{
+												fontFamily: "Manrope-Light",
+												fontSize: "sm",
+												fontWeight: "medium",
+											}}
+											_dark={{
+												borderColor: "coolGray.700",
+											}}
+											_light={{
+												borderColor: "coolGray.300",
 											}}
 										/>
-									}
-									_text={{
-										fontSize: "sm",
-										fontWeight: "medium",
-									}}
-									_dark={{
-										borderColor: "coolGray.700",
-									}}
-									_light={{
-										borderColor: "coolGray.300",
-									}}
-								/>
+										<FormControl.ErrorMessage
+											leftIcon={<WarningOutlineIcon size="xs" />}
+										>
+											Try a different password.
+										</FormControl.ErrorMessage>
+									</FormControl>
+								) : (
+									<FloatingLabelInput
+										isRequired
+										type={showPass ? "" : "password"}
+										label="Password"
+										borderRadius="4"
+										labelColor="#9ca3af"
+										labelBGColor={useColorModeValue("#fff", "#1f2937")}
+										defaultValue={password}
+										onChangeText={(txt) => setPassword(txt)}
+										InputRightElement={
+											<IconButton
+												variant="unstyled"
+												icon={
+													<Icon
+														size="4"
+														color="coolGray.400"
+														as={Entypo}
+														name={showPass ? "eye-with-line" : "eye"}
+													/>
+												}
+												onPress={() => {
+													setShowPass(true);
+												}}
+											/>
+										}
+										_text={{
+											fontFamily: "Manrope-Light",
+											fontSize: "sm",
+											fontWeight: "medium",
+										}}
+										_dark={{
+											borderColor: "coolGray.700",
+										}}
+										_light={{
+											borderColor: "coolGray.300",
+										}}
+									/>
+								)}
 							</VStack>
 							<Link
 								ml="auto"
 								_text={{
+									fontFamily: "Manrope-Regular",
 									fontSize: "xs",
 									fontWeight: "bold",
 									textDecoration: "none",
@@ -201,10 +256,10 @@ export function SignInForm({ props }) {
 								accessibilityLabel="Remember me"
 							>
 								<Text
+									fontFamily={"Manrope-Light "}
 									pl="3"
 									fontWeight="normal"
-									_light={{ color: "coolGray.800" }}
-									_dark={{ color: "coolGray.400" }}
+									color="coolGray.400"
 								>
 									Remember me and keep me logged in
 								</Text>
@@ -229,17 +284,27 @@ export function SignInForm({ props }) {
 							>
 								{!loading ? (
 									<>
-										{!loadingMessage && <Text color="white"> SIGN IN</Text>}
+										{!loadingMessage && (
+											<Text fontFamily={"Manrope-ExtraBold"} color="white">
+												Sign In
+											</Text>
+										)}
 										{loadingMessage === "User is not confirmed." && (
 											<HStack alignItems="center" space={2}>
 												<WarningOutlineIcon color="white" size="sm" />
-												<Text color="white">Attention needed</Text>
+												<Text fontFamily={"Manrope-ExtraBold"} color="white">
+													Attention needed
+												</Text>
 											</HStack>
 										)}
 										{loadingMessage === "Incorrect username or password." && (
 											<HStack alignItems="center" space={2}>
 												<CloseIcon size="sm" color="white" />
-												<Text color="white" fontSize="md">
+												<Text
+													fontFamily={"Manrope-ExtraBold"}
+													color="white"
+													fontSize="md"
+												>
 													Try again
 												</Text>
 											</HStack>
@@ -275,6 +340,7 @@ export function SignInForm({ props }) {
 									_dark={{ bg: "coolGray.700" }}
 								></Divider>
 								<Text
+									fontFamily={"Manrope-Light"}
 									fontWeight="medium"
 									_light={{ color: "coolGray.300" }}
 									_dark={{ color: "coolGray.500" }}
@@ -309,6 +375,7 @@ export function SignInForm({ props }) {
 					mt={{ base: "auto", md: "8" }}
 				>
 					<Text
+						fontFamily={"Manrope-Light"}
 						_light={{ color: "coolGray.800" }}
 						_dark={{ color: "coolGray.400" }}
 					>
@@ -317,6 +384,7 @@ export function SignInForm({ props }) {
 					{/* Opening Link Tag navigateTo:"SignUp" */}
 					<Link
 						_text={{
+							fontFamily: "Manrope-Bold",
 							fontWeight: "bold",
 							textDecoration: "none",
 						}}
@@ -383,7 +451,7 @@ export default function SignIn(props) {
 				>
 					<Hidden from="md">
 						<VStack px="4" mt="4" mb="5" space="9">
-							<HStack space="2" alignItems="center">
+							{/* <HStack space="2" alignItems="center">
 								<IconButton
 									variant="unstyled"
 									pl="0"
@@ -397,17 +465,26 @@ export default function SignIn(props) {
 										/>
 									}
 								/>
-								<Text color="coolGray.50" fontSize="lg">
+								<Text
+									fontFamily={"Manrope-Light"}
+									color="coolGray.50"
+									fontSize="lg"
+								>
 									Sign In
 								</Text>
-							</HStack>
+							</HStack> */}
 							<VStack space="2">
-								<Text fontSize="3xl" fontWeight="bold" color="coolGray.50">
+								<Text
+									fontFamily={"Manrope-Light"}
+									fontSize="3xl"
+									fontWeight="bold"
+									color="coolGray.50"
+								>
 									Welcome back,
 								</Text>
 								<Text
+									fontFamily={"Manrope-Light"}
 									fontSize="md"
-									fontWeight="normal"
 									_dark={{
 										color: "coolGray.400",
 									}}

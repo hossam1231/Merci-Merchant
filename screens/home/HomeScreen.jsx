@@ -30,7 +30,7 @@ import { Loading } from "../loading/LoadingScreen";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 // db
-import { getItem } from "../../functions/db/AWS_GetItem";
+// import { getItem } from "../../functions/db/AWS_GetItem";
 
 const HomeScreen = () => {
 	return (
@@ -42,29 +42,29 @@ const HomeScreen = () => {
 };
 
 export const Display = () => {
-	const [isLoadingComplete, setLoadingComplete] = useState(false);
+	const [isLoadingComplete, setLoadingComplete] = useState(true);
 	const { user, userID } = useSelector((state) => state.userReducer);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		async function loadUser() {
-			if (!user) {
-				const userDB = getItem({
-					params: {
-						TableName: "users",
-						Key: {
-							primaryKey: email,
-							sortKey: "6c8264f7-5ff4-4e51-ba74-03ff1e426b56",
-						},
-					},
-				});
-				const result = await userDB;
-				dispatch(setUser(result));
-			}
-			setLoadingComplete(true);
-		}
-		loadUser();
-	}, []);
+	// useEffect(() => {
+	// 	async function loadUser() {
+	// 		if (!user) {
+	// 			const userDB = getItem({
+	// 				params: {
+	// 					TableName: "users",
+	// 					Key: {
+	// 						primaryKey: email,
+	// 						sortKey: "6c8264f7-5ff4-4e51-ba74-03ff1e426b56",
+	// 					},
+	// 				},
+	// 			});
+	// 			const result = await userDB;
+	// 			dispatch(setUser(result));
+	// 		}
+	// 		setLoadingComplete(true);
+	// 	}
+	// 	loadUser();
+	// }, []);
 
 	return (
 		<Box flex="1">

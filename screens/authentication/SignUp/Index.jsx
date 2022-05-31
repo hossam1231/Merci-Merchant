@@ -22,6 +22,7 @@ import {
 	Hidden,
 	Center,
 	StatusBar,
+	CheckIcon,
 	Box,
 	Stack,
 } from "native-base";
@@ -37,16 +38,23 @@ import { setUser } from "../../../services/redux/actions";
 // local storage
 import { storeObj } from "../../../data/localStorage";
 // navigation
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 // components
 import FloatingLabelInput from "./components/FloatingLabelInput";
 import { Loading } from "../../loading/LoadingScreen";
+
+// pages
+import Page1 from "./components/pages/Page1";
+import ProceedButton from "./components/pages/ProceedButton";
 
 function SignUpForm({ props }) {
 	// redux
 	const { user } = useSelector((state) => state.userReducer);
 	const dispatch = useDispatch();
 	// navigation
+	const SignUpNavigator = createNativeStackNavigator();
 	const navigation = useNavigation();
 	// add next router here
 	const [email, setEmail] = useState("");
@@ -61,21 +69,28 @@ function SignUpForm({ props }) {
 	const [loading, setLoading] = useState(false);
 	const [loadingMessage, setloadingMessage] = useState();
 	const [errorMessage, setErrorMessage] = useState();
+	const [page, setPage] = useState(1);
+	const [proceed, setProceed] = useState(false);
+	const [proceedPressed, setproceedPressed] = useState(false);
 
-	// useEffect
 	// useEffect(() => {
-	// 	// handle errors
-	// 	if (errorMessage) {
-	// 		console.log("uncaught error", errorMessage);
-	// 		setloadingMessage(errorMessage);
-	// 		setTimeout(() => {
-	// 			setloadingMessage();
-	// 		}, "1500");
-	// 		if (errorMessage == "User is not confirmed.") {
-	// 			navigation.navigate("OTP", { destination: email });
+	// 	if (page === 1) {
+	// 		if (phoneNumber.length === 12) {
+	// 			console.log("valid ");
+	// 			setProceed(true);
 	// 		}
 	// 	}
-	// }, [errorMessage]);
+
+	// 	if (page === 2) {
+	// 		if (name && email) {
+	// 			setProceed(true);
+	// 		}
+	// 	}
+
+	// 	if (page === 3) {
+	// 		console.log("hi");
+	// 	}
+	// }, [email, name, phoneNumber, password, confirm_pass, preferredUsername]);
 
 	// functions
 	const signUp = async () => {
@@ -101,6 +116,15 @@ function SignUpForm({ props }) {
 		setLoading(false);
 	};
 
+	// useEffect(() => {
+
+	// }, [third])
+
+	function proceedFunction() {
+		setPage(page + 1);
+		setProceed(false);
+	}
+
 	return (
 		<KeyboardAwareScrollView
 			contentContainerStyle={{
@@ -122,271 +146,78 @@ function SignUpForm({ props }) {
 			>
 				<VStack space="7">
 					<Hidden till="md">
-						<Text fontSize="lg" fontWeight="normal">
+						<Text
+							fontFamily="Manrope-ExtraBold"
+							fontSize="lg"
+							fontWeight="normal"
+						>
 							Sign up to continue!
 						</Text>
 					</Hidden>
 					<VStack>
 						<VStack space="8">
 							<VStack space={{ base: "7", md: "4" }}>
-								<FloatingLabelInput
-									isRequired
-									label="Email"
-									labelColor="#9ca3af"
-									labelBGColor={useColorModeValue("#fff", "#1f2937")}
-									borderRadius="4"
-									defaultValue={email}
-									onChangeText={(txt) => setEmail(txt)}
-									_text={{
-										fontSize: "sm",
-										fontWeight: "medium",
-									}}
-									_dark={{
-										borderColor: "coolGray.700",
-									}}
-									_light={{
-										borderColor: "coolGray.300",
-									}}
-								/>
-
-								<FloatingLabelInput
-									isRequired
-									label="Username"
-									labelColor="#9ca3af"
-									labelBGColor={useColorModeValue("#fff", "#1f2937")}
-									borderRadius="4"
-									defaultValue={preferredUsername}
-									onChangeText={(txt) => setPreferredUsername(txt)}
-									_text={{
-										fontSize: "sm",
-										fontWeight: "medium",
-									}}
-									_dark={{
-										borderColor: "coolGray.700",
-									}}
-									_light={{
-										borderColor: "coolGray.300",
-									}}
-								/>
-
-								<FloatingLabelInput
-									isRequired
-									label="name"
-									labelColor="#9ca3af"
-									labelBGColor={useColorModeValue("#fff", "#1f2937")}
-									borderRadius="4"
-									defaultValue={name}
-									onChangeText={(txt) => setName(txt)}
-									_text={{
-										fontSize: "sm",
-										fontWeight: "medium",
-									}}
-									_dark={{
-										borderColor: "coolGray.700",
-									}}
-									_light={{
-										borderColor: "coolGray.300",
-									}}
-								/>
-
-								<HStack alignItems="center">
-									<InputGroup
-										w={{
-											base: "100%",
-											md: "100%",
-										}}
-									>
-										<InputLeftAddon children={"+44"} />
-										<Input
-											isRequired
-											// label="Phone number"
-											labelColor="#9ca3af"
-											labelBGColor={useColorModeValue("#fff", "#1f2937")}
-											borderRadius="4"
-											defaultValue={phoneNumber}
-											onChangeText={(txt) => setPhoneNumber("+44" + txt)}
-											_text={{
-												fontSize: "sm",
-												fontWeight: "medium",
-											}}
-											_dark={{
-												borderColor: "coolGray.700",
-											}}
-											_light={{
-												borderColor: "coolGray.300",
-											}}
-											flex="1"
+								<NavigationContainer independent={true}>
+									<SignUpNavigator.Navigator>
+										<SignUpNavigator.Screen
+											name="Page1"
+											component={Page1}
+											options={{ headerShown: false }}
 										/>
-									</InputGroup>
-								</HStack>
-
-								<FloatingLabelInput
-									isRequired
-									type={showPass ? "" : "password"}
-									label="Password"
-									borderRadius="4"
-									labelColor="#9ca3af"
-									labelBGColor={useColorModeValue("#fff", "#1f2937")}
-									defaultValue={password}
-									onChangeText={(txt) => setPassword(txt)}
-									InputRightElement={
-										<IconButton
-											variant="unstyled"
-											icon={
-												<Icon
-													size="4"
-													color="coolGray.400"
-													as={Entypo}
-													name={showPass ? "eye-with-line" : "eye"}
-												/>
-											}
-											onPress={() => {
-												setShowPass(!showPass);
-											}}
-										/>
-									}
-									_text={{
-										fontSize: "sm",
-										fontWeight: "medium",
-									}}
-									_dark={{
-										borderColor: "coolGray.700",
-									}}
-									_light={{
-										borderColor: "coolGray.300",
-									}}
-								/>
-
-								<FloatingLabelInput
-									isRequired
-									type={showConfirmPass ? "" : "password"}
-									label="Confirm Password"
-									borderRadius="4"
-									labelColor="#9ca3af"
-									labelBGColor={useColorModeValue("#fff", "#1f2937")}
-									defaultValue={confirm_pass}
-									onChangeText={(txt) => setConfirmPass(txt)}
-									InputRightElement={
-										<IconButton
-											variant="unstyled"
-											icon={
-												<Icon
-													size="4"
-													color="coolGray.400"
-													as={Entypo}
-													name={showConfirmPass ? "eye-with-line" : "eye"}
-												/>
-											}
-											onPress={() => {
-												setShowConfirmPass(!showConfirmPass);
-											}}
-										/>
-									}
-									_text={{
-										fontSize: "sm",
-										fontWeight: "medium",
-									}}
-									_dark={{
-										borderColor: "coolGray.700",
-									}}
-									_light={{
-										borderColor: "coolGray.300",
-									}}
-								/>
+									</SignUpNavigator.Navigator>
+								</NavigationContainer>
 							</VStack>
-							<Checkbox
-								alignItems="flex-start"
-								defaultIsChecked
-								value="demo"
-								colorScheme="primary"
-								accessibilityLabel="Remember me"
-							>
-								<HStack alignItems="center">
-									<Text fontSize="sm" color="coolGray.400" pl="2">
-										I accept the{" "}
-									</Text>
-									<Link
-										_text={{
-											fontSize: "sm",
-											fontWeight: "semibold",
-											textDecoration: "none",
-										}}
-										_light={{
-											_text: {
-												color: "primary.900",
-											},
-										}}
-										_dark={{
-											_text: {
-												color: "primary.500",
-											},
-										}}
-									>
-										Terms of Use
-									</Link>
-									<Text fontSize="sm"> & </Text>
 
-									<Link
-										_text={{
-											fontSize: "sm",
-											fontWeight: "semibold",
-											textDecoration: "none",
-										}}
-										_light={{
-											_text: {
-												color: "primary.900",
-											},
-										}}
-										_dark={{
-											_text: {
-												color: "primary.500",
-											},
-										}}
-										onPress={() => {
-											console.log(userPrivate);
-										}}
-									>
-										Privacy Policy
-									</Link>
-								</HStack>
-							</Checkbox>
-							{/* Opening Link Tag navigateTo:"OTP" (react/Router) */}
-							<Button
-								size="md"
-								borderRadius="4"
-								_text={{
-									fontSize: "sm",
-									fontWeight: "medium",
-								}}
-								_light={{
-									bg: "primary.900",
-								}}
-								_dark={{
-									bg: "primary.700",
-								}}
-								onPress={() => {
-									// props.navigation.navigate("OTP");
-									signUp();
-								}}
-							>
-								{!loading ? (
-									<>
-										{!loadingMessage && <Text color="white"> SIGN UP</Text>}
-										{loadingMessage === "User is not confirmed." && (
-											<HStack alignItems="center" space={2}>
-												<WarningOutlineIcon color="white" size="sm" />
-												<Text color="white">Attention needed</Text>
-											</HStack>
-										)}
-										{loadingMessage === "Incorrect username or password." && (
-											<HStack alignItems="center" space={2}>
-												<CloseIcon size="sm" color="white" />
-												<Text color="white" fontSize="md">
-													Try again
+							<ProceedButton />
+
+							{page === 4 && (
+								<Button
+									size="md"
+									borderRadius="4"
+									_text={{
+										fontSize: "sm",
+										fontWeight: "medium",
+										fontFamily: "Manrope-Light",
+									}}
+									_light={{
+										bg: "primary.900",
+									}}
+									_dark={{
+										bg: "primary.700",
+									}}
+									onPress={() => {
+										// props.navigation.navigate("OTP");
+										signUp();
+									}}
+								>
+									{!loading ? (
+										<>
+											{!loadingMessage && (
+												<Text fontFamily={"Manrope-Bold"} color="white">
+													Sign Up
 												</Text>
-											</HStack>
-										)}
-										{/* {loadingMessage == "Incorrect username or password" && (
+											)}
+											{loadingMessage === "User is not confirmed." && (
+												<HStack alignItems="center" space={2}>
+													<WarningOutlineIcon color="white" size="sm" />
+													<Text fontFamily={"Manrope-Bold"} color="white">
+														Attention needed
+													</Text>
+												</HStack>
+											)}
+											{loadingMessage === "Incorrect username or password." && (
+												<HStack alignItems="center" space={2}>
+													<CloseIcon size="sm" color="white" />
+													<Text
+														fontFamily={"Manrope-Bold"}
+														color="white"
+														fontSize="md"
+													>
+														Try again
+													</Text>
+												</HStack>
+											)}
+											{/* {loadingMessage === "Incorrect username or password" && (
 											<HStack space={2}>
 												<CheckIcon size="5" mt="0.5" color="emerald.500" />
 												<Text color="emerald.500" fontSize="md">
@@ -394,16 +225,16 @@ function SignUpForm({ props }) {
 												</Text>
 											</HStack>
 										)} */}
-									</>
-								) : (
-									<Loading
-										spinnerColor={"white"}
-										textColor={"white"}
-										accessibilityLabel={"loading sign-in promise"}
-									/>
-								)}
-							</Button>
-							{/* Closing Link Tag */}
+										</>
+									) : (
+										<Loading
+											spinnerColor={"white"}
+											textColor={"white"}
+											accessibilityLabel={"loading sign-in promise"}
+										/>
+									)}
+								</Button>
+							)}
 							<HStack
 								space="2"
 								mb={{ base: "6", md: "7" }}
@@ -416,6 +247,7 @@ function SignUpForm({ props }) {
 									_dark={{ bg: "coolGray.700" }}
 								></Divider>
 								<Text
+									fontFamily={"Manrope-Bold"}
 									fontSize="sm"
 									fontWeight="medium"
 									_light={{ color: "coolGray.300" }}
@@ -450,6 +282,7 @@ function SignUpForm({ props }) {
 					mt={{ base: "auto", md: "8" }}
 				>
 					<Text
+						fontFamily={"Manrope-Light"}
 						fontSize="sm"
 						_light={{ color: "coolGray.800" }}
 						_dark={{ color: "coolGray.400" }}
@@ -462,6 +295,7 @@ function SignUpForm({ props }) {
 							fontSize: "sm",
 							fontWeight: "bold",
 							textDecoration: "none",
+							fontFamily: "Manrope-Bold",
 						}}
 						_light={{
 							_text: {
@@ -513,7 +347,7 @@ export default function SignUp(props) {
 				>
 					<Hidden from="md">
 						<VStack px="4" mt="4" mb="5" space="9">
-							<HStack space="2" alignItems="center">
+							{/* <HStack space="2" alignItems="center">
 								<IconButton
 									pl="0"
 									variant="unstyled"
@@ -527,15 +361,25 @@ export default function SignUp(props) {
 										/>
 									}
 								/>
-								<Text color="coolGray.50" fontSize="lg">
+								<Text
+									fontFamily={"Manrope-Light"}
+									color="coolGray.50"
+									fontSize="lg"
+								>
 									Sign Up
 								</Text>
-							</HStack>
+							</HStack> */}
 							<VStack space="2">
-								<Text fontSize="3xl" fontWeight="bold" color="coolGray.50">
+								<Text
+									fontFamily={"Manrope-Light"}
+									fontSize="3xl"
+									fontWeight="bold"
+									color="coolGray.50"
+								>
 									Welcome
 								</Text>
 								<Text
+									fontFamily={"Manrope-Light"}
 									fontSize="md"
 									fontWeight="normal"
 									_dark={{
